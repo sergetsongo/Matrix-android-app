@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.PopupWindow;
 import android.widget.Switch;
+import android.widget.TimePicker;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -33,6 +34,16 @@ public class MainActivity extends AppCompatActivity {
     Button textSaveButton;
     Button timerCancelButton;
     Button timerSaveButton;
+    TimePicker timePicker;
+
+    //dataset variables
+    //time for alarm
+    int alarmHours= 0;
+    int alarmMinutes= 0;
+    //new alarm time; these values are the ones we get before saving
+    int newAlarmHours= 0;
+    int newAlarmMinutes= 0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +95,8 @@ public class MainActivity extends AppCompatActivity {
                 alarmCancelButton = popupView.findViewById(R.id.cancel_button_alarm);
                 //initialize save button
                 alarmSaveButton = popupView.findViewById(R.id.save_button_alarm);
+                //initialize time picker
+                timePicker=popupView.findViewById(R.id.timePicker_alarm);
 
                 //set cancel button listener
                 alarmCancelButton.setOnClickListener(new View.OnClickListener() {
@@ -97,7 +110,19 @@ public class MainActivity extends AppCompatActivity {
                 alarmSaveButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                         // dismiss the popup window
+                        alarmHours=newAlarmHours;
+                        alarmMinutes=newAlarmMinutes;
+
+                        popupWindow.dismiss(); // dismiss the popup window
+                    }
+                });
+
+                //set time picker listener
+                timePicker.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
+                    @Override
+                    public void onTimeChanged(TimePicker timePicker, int hourOfDay, int minute) {
+                        newAlarmHours=hourOfDay;
+                        newAlarmMinutes=minute;
                     }
                 });
             }
